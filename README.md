@@ -3,7 +3,7 @@
 zig library for downloading files for build scripts
 
 Right now only supports tar.gz files, and it saves downloads into the build cache.
-By defalt the url is hashed for the directoy name, but you can optionally set a name, as well as a sha256 hash for integrity checking.
+By default the url is hashed for the directoy name, but you can optionally set a name, as well as a sha256 hash for integrity checking.
 A simple caching trick is utilized as well so that you don't download every time the build is run.
 
 ## Example
