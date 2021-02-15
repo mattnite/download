@@ -6,7 +6,12 @@ const Options = @import("main.zig").Options;
 
 const Hasher = std.crypto.hash.blake2.Blake2b128;
 
-pub fn gz(b: *std.build.Builder, url: []const u8, opts: Options) ![]const u8 {
+pub fn gz(
+    allocator: *std.mem.Allocator,
+    cache_root: []const u8,
+    url: []const u8,
+    opts: Options,
+) ![]const u8 {
     var digest: [Hasher.digest_length]u8 = undefined;
     var subpath: [2 * Hasher.digest_length]u8 = undefined;
 
@@ -14,17 +19,17 @@ pub fn gz(b: *std.build.Builder, url: []const u8, opts: Options) ![]const u8 {
     var fixed_buffer = std.io.fixedBufferStream(&subpath);
     for (digest) |i| try std.fmt.format(fixed_buffer.writer(), "{x:0>2}", .{i});
 
-    const base = try std.fs.path.join(b.allocator, &[_][]const u8{
-        b.cache_root,
+    const base = try std.fs.path.join(allocator, &[_][]const u8{
+        cache_root,
         "downloads",
         if (opts.name) |n| n else &subpath,
     });
-    defer b.allocator.free(base);
+    defer allocator.free(base);
 
-    var ret = try std.fs.path.join(b.allocator, &[_][]const u8{
+    var ret = try std.fs.path.join(allocator, &[_][]const u8{
         base, "content",
     });
-    errdefer b.allocator.free(ret);
+    errdefer allocator.free(ret);
 
     var base_dir = try std.fs.cwd().makeOpenPath(base, .{});
     defer base_dir.close();
@@ -42,7 +47,7 @@ pub fn gz(b: *std.build.Builder, url: []const u8, opts: Options) ![]const u8 {
     var dir = try std.fs.cwd().makeOpenPath(ret, .{});
     defer dir.close();
 
-    try getTarGz(b.allocator, url, dir, opts.sha256);
+    try getTarGz(allocator, url, dir, opts.sha256);
 
     (try base_dir.createFile("ok", .{ .read = true })).close();
     return ret;
