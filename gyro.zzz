@@ -1,6 +1,6 @@
 pkgs:
   download:
-    version: 1.0.0
+    version: 1.0.1
     description: "zig library for downloading files for build scripts"
     license: MIT
     source_url: "https://github.com/mattnite/download"
@@ -8,6 +8,7 @@ pkgs:
     files:
       README.md
       LICENSE
+      build.zig
       src/*.zig
 
 deps:
