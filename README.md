@@ -22,10 +22,14 @@ pub fn build(b: *Builder) !void {
     lib.setBuildMode(mode);
     lib.install();
 
-    const path = try download.tar.gz(b, "https://zlib.net/zlib-1.2.11.tar.gz", .{
-        .name = "zlib-1.2.11",
-        .sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
-    });
+    const path = try download.tar.gz(
+        b.allocator,
+        b.cache_root, 
+        "https://zlib.net/zlib-1.2.11.tar.gz", .{
+            .name = "zlib-1.2.11",
+            .sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
+        },
+    );
     defer b.allocator.free(path);
 
     // rest of build file ...
