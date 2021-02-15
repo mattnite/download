@@ -12,6 +12,9 @@ pub fn gz(
     url: []const u8,
     opts: Options,
 ) ![]const u8 {
+    try zfetch.init();
+    defer zfetch.deinit();
+
     var digest: [Hasher.digest_length]u8 = undefined;
     var subpath: [2 * Hasher.digest_length]u8 = undefined;
 
