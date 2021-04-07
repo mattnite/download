@@ -1,6 +1,6 @@
 pkgs:
   download:
-    version: 1.0.0
+    version: 0.1.0
     description: "zig library for downloading files for build scripts"
     license: MIT
     source_url: "https://github.com/mattnite/download"
@@ -13,5 +13,5 @@ pkgs:
 
 deps:
   mattnite/tar: ^0.0.1
-  mattnite/zfetch: ^0.0.1
+  truemedian/zfetch: ^0.0.1
   mattnite/uri: ^0.0.0
