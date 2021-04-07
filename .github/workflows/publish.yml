@@ -5,6 +5,7 @@ on: workflow_dispatch
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: publish
     steps:
       - uses: mattnite/setup-gyro@v1
       - uses: actions/checkout@v2
